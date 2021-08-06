@@ -10,7 +10,7 @@ Data Needed:
 Stock ticker info and data needed from https://www.alphavantage.co/documentation/ API. Perhaps need a graphing or stock ticker dependency add-on.
 # Schema Design:
 
-![Schema Image](https://github.com/mcodemax/Stocker/schema.png)
+![Schema Image](https://github.com/mcodemax/Stocker/blob/master/schema.png)
 
 ```
 "Users"
