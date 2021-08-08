@@ -103,7 +103,8 @@ class Portfolio(db.Model):
     # tells what user made this portfolio
     user_id = db.Column(db.Integer,
                        db.ForeignKey("users.id"),
-                       primary_key=True)
+                    #    primary_key=True #uncommenting this line breaks schema; ask
+                       )
 
 class PortfolioUser(db.Model):
     """Mapping of Portfolio to Users that are monitoring it, not necessarily created it"""
@@ -118,7 +119,7 @@ class PortfolioUser(db.Model):
                        db.ForeignKey("users.id", ondelete="cascade"),
                        primary_key=True)
 
-    portfolio_id = db.Column(db.Integer,
+    portfolio_id = db.Column(db.Integer,  #having user_id FK in the Portfolio class above breaks the schema(if you leave primary_key=True in that particular part of the mentioned class)
                        db.ForeignKey("portfolios.id", ondelete="cascade"),
                        primary_key=True)                    
 
@@ -135,7 +136,7 @@ class StocksPortfolio(db.Model):
                     primary_key=True,
                     autoincrement=True)
 
-    portfolio_id = db.Column(db.Integer,
+    portfolio_id = db.Column(db.Integer,    #having user_id FK in the Portfolio class above breaks the schema(if you leave primary_key=True in that particular part of the mentioned class)
                        db.ForeignKey("portfolios.id"),
                        primary_key=True)
 
