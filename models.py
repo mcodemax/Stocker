@@ -1,10 +1,9 @@
 """Models for User"""
 
-
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import backref
-
+import os
 
 db = SQLAlchemy()
 bcrypt = Bcrypt()
@@ -28,7 +27,7 @@ class User(db.Model):
 
     def __repr__(self):
         return f"""<id={self.id} username={self.username} password={self.password} email={self.email} first_name={self.first_name}
-                last_name={self.last_name} image={self.image}>"""
+                last_name={self.last_name} image={self.image_url}>"""
 
     id = db.Column(db.Integer, # int not the same as SQL Integer, the ORM translates between python and postgreSQL
                     primary_key=True,
@@ -36,7 +35,6 @@ class User(db.Model):
     
     username = db.Column(db.String(MAX_USERNAME_LEN),
                             unique=True,
-                            primary_key=True,
                             nullable=False)
     
     password = db.Column(db.String(), 
@@ -52,7 +50,7 @@ class User(db.Model):
     last_name = db.Column(db.String(MAX_NAME_LEN),
                         nullable=False)
     
-    image = db.Column(db.String(MAX_NOTE_LEN), 
+    image_url = db.Column(db.String(MAX_NOTE_LEN), 
                         nullable=False,
                         default='https://i.redd.it/c9lg95srmj521.png')
 
@@ -61,13 +59,14 @@ class User(db.Model):
     
     # still needs to be fixed
     @classmethod
-    def register(cls, username, password, email, first_name, last_name):
+    def register(cls, username, password, email, first_name, last_name, image_url):
 
         user = User(username=username,
                     password=bcrypt.generate_password_hash(password).decode("utf8"),
                     email=email,
                     first_name=first_name,
-                    last_name=last_name)
+                    last_name=last_name,
+                    image_url=image_url)
 
         return user
 
@@ -82,39 +81,16 @@ class User(db.Model):
         else:
             return False
 
-    #def serialize_cupcake(self):
-        # """serialize cupcakes"""
-        
-        # return {
-        #     "id": self.id,
-        #     "flavor": self.flavor,
-        #     "size": self.size,
-        #     "rating": self.rating,
-        #     "image" : self.image
-        # }
-
-class PortfolioUser(db.Model):
-    """Mapping of Portfolio to Users that are monitoring it, not necessarily created it"""
-
-    user_id = db.Column(db.Integer,
-                       db.ForeignKey("users.id"),
-                       primary_key=True)
-
-    portfolio_id = db.Column(db.Integer,
-                       db.ForeignKey("portfolios.id"),
-                       primary_key=True)                    
-
-
 class Portfolio(db.Model):
     """Porfolio."""
 
     __tablename__ = "portfolios"
 
     def __repr__(self):
-        return f"""<feedback id={self.id} title={self.title} content={self.content} username={self.username}>"""
+        return f"""<name={self.name}>"""
 
 
-    id = db.Column(db.Integer, # int not the same as SQL Integer, the ORM translates etween python and postgreSQL
+    id = db.Column(db.Integer,
                     primary_key=True,
                     autoincrement=True)
     
@@ -129,7 +105,24 @@ class Portfolio(db.Model):
                        db.ForeignKey("users.id"),
                        primary_key=True)
 
-    
+class PortfolioUser(db.Model):
+    """Mapping of Portfolio to Users that are monitoring it, not necessarily created it"""
+
+    __tablename__ = "portfolios_users"
+
+    id = db.Column(db.Integer,
+                    primary_key=True,
+                    autoincrement=True)
+
+    user_id = db.Column(db.Integer,
+                       db.ForeignKey("users.id", ondelete="cascade"),
+                       primary_key=True)
+
+    portfolio_id = db.Column(db.Integer,
+                       db.ForeignKey("portfolios.id", ondelete="cascade"),
+                       primary_key=True)                    
+
+
 class StocksPortfolio(db.Model):
     """Mapping of Stocks to a Portfolio."""
 
