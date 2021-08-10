@@ -54,6 +54,8 @@ class User(db.Model):
                         nullable=False,
                         default='https://i.redd.it/c9lg95srmj521.png')
 
+    portfolios = db.relationship("Portfolio", backref="user") #don't cascade delete these b/c other users can view other porfolios
+
     # feedback = db.relationship("Feedback", backref="user", cascade="all, delete-orphan")
     #def function to salt/encrpyt password
     
@@ -100,11 +102,16 @@ class Portfolio(db.Model):
     description = db.Column(db.String(MAX_NOTE_LEN),
                         nullable=False)
 
+    profit = db.Column(db.Float,
+                        default=0)
+
     # tells what user made this portfolio
     user_id = db.Column(db.Integer,
                        db.ForeignKey("users.id"),
                     #    primary_key=True #uncommenting this line breaks schema; ask
                        )
+
+    stocks = db.relationship("StocksPortfolio", backref="portfolio", cascade="all, delete-orphan")           
 
 class PortfolioUser(db.Model):
     """Mapping of Portfolio to Users that are monitoring it, not necessarily created it"""
@@ -142,3 +149,5 @@ class StocksPortfolio(db.Model):
 
     ticker = db.Column(db.String(MAX_NAME_LEN),
                         nullable=False)
+
+    
