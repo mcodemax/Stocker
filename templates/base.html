@@ -10,45 +10,35 @@
   <script src="https://unpkg.com/jquery"></script>
   <script src="https://unpkg.com/popper"></script>
   <script src="https://unpkg.com/bootstrap"></script>
+  
 
   <link rel="stylesheet"
         href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
   <link rel="stylesheet" href="/static/stylesheets/style.css">
   <link rel="shortcut icon" href="/static/favicon.ico">
+  <link rel="stylesheet"
+        href="/static/style.css">
 </head>
 
 <body class="{% block body_class %}{% endblock %}">
-<nav class="navbar navbar-expand">
+<nav class="navbar navbar-expand navbar-dark bg-dark">
   <div class="container-fluid">
     <div class="navbar-header">
       <a href="/" class="navbar-brand">
-        <img src="/static/images/warbler-logo.png" alt="logo">
-        <span>Warbler</span>
+        <img src="/static/stock-prices-up.png" alt="logo" id="stocker-tiny-img">
+        <span>Stocker</span>
       </a>
     </div>
-    <ul class="nav navbar-nav navbar-right">
-      {% if request.endpoint != None %}
-      <li>
-        <form class="navbar-form navbar-right" action="/users">
-          <input name="q" class="form-control" placeholder="Search Warbler" id="search">
-          <button class="btn btn-default">
-            <span class="fa fa-search"></span>
-          </button>
-        </form>
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="/login">Login<span class="sr-only">(current)</span></a>
       </li>
-      {% endif %}
-      {% if not g.user %}
-      <li><a href="/signup">Sign up</a></li>
-      <li><a href="/login">Log in</a></li>
-      {% else %}
-      <li>
-        <a href="/users/{{ g.user.id }}">
-          <img src="{{ g.user.image_url }}" alt="{{ g.user.username }}">
-        </a>
+      <li class="nav-item">
+        <a class="nav-link" href="/signup">Signup<span class="sr-only">(current)</span></a>
       </li>
-      <li><a href="/messages/new">New Message</a></li>
-      <li><a href="/logout">Log out</a></li>
-      {% endif %}
+      <li class="nav-item">
+        <a class="nav-link" href="/">Logout<span class="sr-only">(current)</span></a>
+      </li>
     </ul>
   </div>
 </nav>

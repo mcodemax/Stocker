@@ -64,7 +64,7 @@ class User(db.Model):
     def register(cls, username, password, email, first_name, last_name, image_url):
 
         user = User(username=username,
-                    password=bcrypt.generate_password_hash(password).decode("utf8"),
+                    password=bcrypt.generate_password_hash(password).decode('UTF-8'),
                     email=email,
                     first_name=first_name,
                     last_name=last_name,
