@@ -2,3 +2,7 @@
     height: 4vw;
     width: 4vw;
 }
+
+body {
+    background-color: rgba(34, 21, 21, 0.096);
+}

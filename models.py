@@ -70,6 +70,8 @@ class User(db.Model):
                     last_name=last_name,
                     image_url=image_url)
 
+        db.session.add(user)
+
         return user
 
     #still needs to be fixed

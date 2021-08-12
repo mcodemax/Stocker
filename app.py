@@ -1,12 +1,13 @@
 import os
 from random import randint
-from flask import Flask, render_template, redirect, request, jsonify, session, flash
+from flask import Flask, render_template, redirect, request, jsonify, session, flash, g 
 from flask_debugtoolbar import DebugToolbarExtension
 # import requests
 from models import db, connect_db, User, Portfolio, PortfolioUser #, StocksPortfolio
 from flask_cors import CORS
 from forms import UserAddForm, LoginForm
 from sqlalchemy.exc import IntegrityError
+import requests
 
 CURR_USER_KEY = "curr_user"
 ALPHA_VAN_API_KEY = 'ZM8LBVFEHBG9JWEP'
@@ -60,7 +61,7 @@ def do_logout():
 def homepage():
     """Show homepage."""
 
-    return render_template("index.html")
+    return render_template("base.html")
 
 @app.route('/signup', methods=["GET", "POST"])
 def signup():
@@ -78,7 +79,9 @@ def signup():
 
     if form.validate_on_submit():
         try:
-            user = User.signup(
+            user = User.register(
+                first_name=form.first_name.data,
+                last_name=form.last_name.data,
                 username=form.username.data,
                 password=form.password.data,
                 email=form.email.data,
@@ -123,3 +126,19 @@ def logout():
     do_logout()
     flash('Logged Out!', 'success')
     return redirect("/login")
+
+# @app.route('/portfolio/create', methods=["GET", "POST"])
+# def make_portfolio():
+
+
+# https://github.com/mcodemax/Lucky_Number_Flask_2/blob/master/lucky-nums/app.py refer for api calls
+def alphavantage_api_call(ticker):
+    
+    url = f"""https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={ticker}&apikey={ALPHA_VAN_API_KEY}"""
+    r = requests.get(url)
+    
+    data = r.json()
+
+    return data
+    # d.get("Time Series (Daily)") gets the daily open/close vol data
+
