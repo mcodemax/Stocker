@@ -3,6 +3,6 @@
     width: 4vw;
 }
 
-body {
-    background-color: rgba(34, 21, 21, 0.096);
+.main-layout-color {
+    background-color: rgba(48, 30, 30, 0.801); 
 }

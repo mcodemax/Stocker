@@ -110,12 +110,13 @@ def login():
         user = User.authenticate(form.username.data,
                                  form.password.data)
 
-        if user:
+        if user: # if user succesfull created
             do_login(user)
             flash(f"Hello, {user.username}!", "success")
             return redirect("/")
 
         flash("Invalid credentials.", 'danger')
+        return redirect("/login")
 
     return render_template('users/login.html', form=form)
 
