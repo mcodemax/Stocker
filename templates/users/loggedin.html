@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- user info -->
+<div>
+    <div id="user-img" class="user-details">
+        <img src="{{ user.image_url }}" alt="IMAGE NOT FOUND">
+    </div>
+    <div>
+        <p>Hello {{ user.username }}</p>
+    </div>
+</div>
+
+<!-- list of your portolios -->
+
+<div id="portfolio-list">
+    <ul>
+        {% for portfolio in user.portfolios %}
+        <li><a href="">{{ portfolio.name }}</a></li> <!--add in href-->
+        {% endfor %}
+    </ul>
+</div>
+
+
+<!-- create new portfolio page -->
+
+<div>
+    <form action="/portfolio/create"> <!--send2new portfolio page-->
+        <button type="submit">CREATE A NEW PORTFOLIO</button>
+    </form>
+</div>
+
+
+<!-- view other people's portfolios -->
+
+
+
+{% endblock %}

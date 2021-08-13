@@ -5,4 +5,9 @@
 
 .main-layout-color {
     background-color: rgba(48, 30, 30, 0.801); 
+    color: green;
+}
+
+.join-message {
+    color: whitesmoke
 }

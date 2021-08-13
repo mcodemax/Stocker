@@ -5,7 +5,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 # import requests
 from models import db, connect_db, User, Portfolio, PortfolioUser #, StocksPortfolio
 from flask_cors import CORS
-from forms import UserAddForm, LoginForm
+from forms import UserAddForm, LoginForm, CreatePortfolioForm
 from sqlalchemy.exc import IntegrityError
 import requests
 
@@ -39,6 +39,9 @@ def add_user_to_g():
     if CURR_USER_KEY in session:
         g.user = User.query.get(session[CURR_USER_KEY])
 
+        print('*********************************')
+        print(f"{session[CURR_USER_KEY]} and {g.user}")
+
     else:
         g.user = None
 
@@ -61,7 +64,10 @@ def do_logout():
 def homepage():
     """Show homepage."""
 
-    return render_template("base.html")
+    if None != g.user and g.user.id == User.query.get_or_404(session[CURR_USER_KEY]).id:
+        return render_template('users/loggedin.html', user=g.user)
+    else:
+        return render_template("base.html")
 
 @app.route('/signup', methods=["GET", "POST"])
 def signup():
@@ -128,8 +134,30 @@ def logout():
     flash('Logged Out!', 'success')
     return redirect("/login")
 
-# @app.route('/portfolio/create', methods=["GET", "POST"])
-# def make_portfolio():
+@app.route('/portfolio/create', methods=["GET", "POST"])
+def make_portfolio():
+    """Create Portfolio"""
+    
+    form = CreatePortfolioForm()
+
+    if form.validate_on_submit():
+        try:
+            portfolio = Portfolio(
+                name=form.name.data,
+                description=form.description.data,
+                user_id=g.user.id)
+            db.session.add(portfolio)
+            db.session.commit()
+
+            #finish the route below that lets you view the details of a portfolio
+            return render_template('/users/loggedin.html')
+
+        except IntegrityError:
+            flash("This portfolio cannot be created", 'danger')
+            return redirect('/portfolio/create')
+    else:
+        return render_template('/portfolio/createportfolio.html', form=form)
+
 
 
 # https://github.com/mcodemax/Lucky_Number_Flask_2/blob/master/lucky-nums/app.py refer for api calls

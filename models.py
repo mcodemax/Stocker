@@ -1,6 +1,7 @@
 """Models for User"""
 
 from flask_bcrypt import Bcrypt
+from flask_cors.core import DEFAULT_OPTIONS
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import backref
 import os
@@ -17,7 +18,7 @@ MAX_NAME_LEN = 30
 MAX_EMAIL_LEN = 50
 MAX_NOTE_LEN = 5000
 MAX_TITLE_LEN = 100
-
+DEFAULT_USER_IMG = 'https://i.redd.it/c9lg95srmj521.png'
 
 
 class User(db.Model):
@@ -52,7 +53,7 @@ class User(db.Model):
     
     image_url = db.Column(db.String(MAX_NOTE_LEN), 
                         nullable=False,
-                        default='https://i.redd.it/c9lg95srmj521.png')
+                        default=DEFAULT_USER_IMG)
 
     portfolios = db.relationship("Portfolio", backref="user") #don't cascade delete these b/c other users can view other porfolios
 
@@ -61,7 +62,7 @@ class User(db.Model):
     
     # still needs to be fixed
     @classmethod
-    def register(cls, username, password, email, first_name, last_name, image_url):
+    def register(cls, username, password, email, first_name, last_name, image_url=DEFAULT_USER_IMG):
 
         user = User(username=username,
                     password=bcrypt.generate_password_hash(password).decode('UTF-8'),
