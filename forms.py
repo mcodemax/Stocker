@@ -27,4 +27,8 @@ class CreatePortfolioForm(FlaskForm):
     # in progress
     name = StringField('Name your portfolio', validators=[DataRequired(), Length(max=MAX_NAME_LEN)])
     description = StringField('Describe your portfolio (Optional)', validators=[DataRequired(), Length(max=MAX_NOTE_LEN)])
-    
+
+class AddStockForm(FlaskForm):
+    """Form for adding a stock"""
+
+    ticker = StringField('Add a ticker', validators=[DataRequired(), Length(max=MAX_NAME_LEN)])

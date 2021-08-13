@@ -3,9 +3,9 @@ from random import randint
 from flask import Flask, render_template, redirect, request, jsonify, session, flash, g 
 from flask_debugtoolbar import DebugToolbarExtension
 # import requests
-from models import db, connect_db, User, Portfolio, PortfolioUser #, StocksPortfolio
+from models import StocksPortfolio, db, connect_db, User, Portfolio, PortfolioUser #, StocksPortfolio
 from flask_cors import CORS
-from forms import UserAddForm, LoginForm, CreatePortfolioForm
+from forms import UserAddForm, LoginForm, CreatePortfolioForm, AddStockForm
 from sqlalchemy.exc import IntegrityError
 import requests
 
@@ -149,8 +149,12 @@ def make_portfolio():
             db.session.add(portfolio)
             db.session.commit()
 
+            portf_user_entry = PortfolioUser(user_id=g.user.id,portfolio_id=portfolio.id)
+            db.session.add(portf_user_entry)
+            db.session.commit()
+
             #finish the route below that lets you view the details of a portfolio
-            return render_template('/users/loggedin.html')
+            return redirect(f"/portfolio/{g.user.id}/{portfolio.id}")
 
         except IntegrityError:
             flash("This portfolio cannot be created", 'danger')
@@ -158,7 +162,32 @@ def make_portfolio():
     else:
         return render_template('/portfolio/createportfolio.html', form=form)
 
+@app.route('/portfolio/<int:user_id>/<int:portfolio_id>', methods=["GET", "POST"])
+def view_own_portfolio(user_id, portfolio_id):
+    """This route allows a user to view their own portfolio, and add stocks"""
 
+    form = AddStockForm()
+
+    # authenticate user here
+
+    if (form.validate_on_submit() and 
+        g.user.id == Portfolio.query.get_or_404(portfolio_id).user_id):
+        
+        try:
+            stock_portf_link = StocksPortfolio(portfolio_id=portfolio_id, ticker=form.ticker.data)
+            db.session.add(stock_portf_link)
+            db.session.commit()
+            return redirect(f"/portfolio/{g.user.id}/{portfolio_id}")
+
+        except IntegrityError:
+            flash("This ticker cannot be added", 'danger')
+            return redirect(f"/portfolio/{user_id}/{portfolio_id}")
+
+    else:
+        # pass in form as well as the user's list of stocks in that particular portfolio
+        return render_template('/portfolio/viewownportfolio.html', form=form)
+        
+    # ref the above portfolio/create route once youre done here
 
 # https://github.com/mcodemax/Lucky_Number_Flask_2/blob/master/lucky-nums/app.py refer for api calls
 def alphavantage_api_call(ticker):

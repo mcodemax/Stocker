@@ -1,0 +1,7 @@
+Capstone steps:
+-maybe on the portfolio page; generate a new chart everytime you press the chart button
+
+
+-implement a function that will be put in most routes to ensure the user is logged in
+-vizio your routes n stuff
+-app.py around 173
