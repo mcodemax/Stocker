@@ -5,3 +5,16 @@ Capstone steps:
 -implement a function that will be put in most routes to ensure the user is logged in
 -vizio your routes n stuff
 -app.py around 173
+
+
+
+
+-add delete btn for stocks in viewownportfolio.html
+-maybe to make app easier just have app calculate the current value of your portfolio
+-don't allow duplicate symbols to be added
+
+
+
+-add an evt listener to the body or element that is already loaded(may not be neded 
+since flask will reload a page with possbly new evt listeners every redirect)
+, be sure to remove them later if needed

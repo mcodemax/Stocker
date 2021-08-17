@@ -2,6 +2,7 @@ import os
 from random import randint
 from flask import Flask, render_template, redirect, request, jsonify, session, flash, g 
 from flask_debugtoolbar import DebugToolbarExtension
+from wtforms.widgets.core import CheckboxInput
 # import requests
 from models import StocksPortfolio, db, connect_db, User, Portfolio, PortfolioUser #, StocksPortfolio
 from flask_cors import CORS
@@ -173,8 +174,13 @@ def view_own_portfolio(user_id, portfolio_id):
     if (form.validate_on_submit() and 
         g.user.id == Portfolio.query.get_or_404(portfolio_id).user_id):
         
+        #valididate ticker symbol
+        if not check_valid_ticker(form.ticker.data):    
+            flash("This ticker cannot be added (doesn't exist)", 'danger')
+            return redirect(f"/portfolio/{user_id}/{portfolio_id}")
+
         try:
-            stock_portf_link = StocksPortfolio(portfolio_id=portfolio_id, ticker=form.ticker.data)
+            stock_portf_link = StocksPortfolio(portfolio_id=portfolio_id, ticker=(form.ticker.data).upper())
             db.session.add(stock_portf_link)
             db.session.commit()
             return redirect(f"/portfolio/{g.user.id}/{portfolio_id}")
@@ -185,7 +191,9 @@ def view_own_portfolio(user_id, portfolio_id):
 
     else:
         # pass in form as well as the user's list of stocks in that particular portfolio
-        return render_template('/portfolio/viewownportfolio.html', form=form)
+        if g.user.id == Portfolio.query.get_or_404(portfolio_id).user_id:
+            portfolio = Portfolio.query.get_or_404(portfolio_id)
+        return render_template('/portfolio/viewownportfolio.html', form=form, portfolio=portfolio)
         
     # ref the above portfolio/create route once youre done here
 
@@ -200,3 +208,13 @@ def alphavantage_api_call(ticker):
     return data
     # d.get("Time Series (Daily)") gets the daily open/close vol data
 
+def check_valid_ticker(ticker):
+    """check if symbol is valid ticker, returns True if valid"""
+
+    response = alphavantage_api_call(ticker)
+
+    if 'Error Message' in response.keys():
+        return False
+    
+    return True
+    

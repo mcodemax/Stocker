@@ -153,4 +153,5 @@ class StocksPortfolio(db.Model):
     ticker = db.Column(db.String(MAX_NAME_LEN),
                         nullable=False)
 
-    
+    # amount = db.Column(db.Integer, nullable=False,
+                        # default=1)
