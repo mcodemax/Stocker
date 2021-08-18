@@ -197,6 +197,31 @@ def view_own_portfolio(user_id, portfolio_id):
         
     # ref the above portfolio/create route once youre done here
 
+@app.route('/testapi', methods=["GET","POST"])
+def test_api():
+
+    #get ticker name from axios call from js
+    data = request.get_json() #only works with axios.post?
+    ticker_data = alphavantage_api_call(data['ticker']) #returns data ordered oldest to newest
+
+    date_keys = []
+    price_vals = []
+    print(ticker_data)
+
+    for k, v in ticker_data['Time Series (Daily)'].items():
+        print(k, v)
+        date_keys.append(k)
+        price_vals.append(v['4. close'])
+
+    date_keys.reverse()
+    price_vals.reverse()
+
+    return {
+        'date_keys': date_keys,
+        'price_vals': price_vals
+    }
+    
+
 # https://github.com/mcodemax/Lucky_Number_Flask_2/blob/master/lucky-nums/app.py refer for api calls
 def alphavantage_api_call(ticker):
     
@@ -207,6 +232,9 @@ def alphavantage_api_call(ticker):
 
     return data
     # d.get("Time Series (Daily)") gets the daily open/close vol data
+
+# def parse_alpha_call_data(data):
+
 
 def check_valid_ticker(ticker):
     """check if symbol is valid ticker, returns True if valid"""
