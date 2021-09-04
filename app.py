@@ -25,6 +25,7 @@ app.config["SECRET_KEY"] = "maxcode1" #put this in a secret file later
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 debug = DebugToolbarExtension(app)
 
+
 connect_db(app)
 
 db.create_all()
@@ -201,15 +202,16 @@ def view_own_portfolio(user_id, portfolio_id):
 def test_api():
 
     #get ticker name from axios call from js
-    data = request.get_json() #only works with axios.post? see parseAPIcall in script.js
+    data = request.get_json() #only works with axios.post; see parseAPIcall in script.js
+    
     ticker_data = alphavantage_api_call(data['ticker']) #returns data ordered oldest to newest
 
     date_keys = []
     price_vals = []
-    print(ticker_data)
+    #print(ticker_data)
 
-    for k, v in ticker_data['Time Series (Daily)'].items():
-        print(k, v)
+    for k, v in ticker_data['Time Series (Daily)'].items(): 
+        #print(k, v)
         date_keys.append(k)
         price_vals.append(v['4. close'])
 
