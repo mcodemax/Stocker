@@ -201,7 +201,7 @@ def view_own_portfolio(user_id, portfolio_id):
 def test_api():
 
     #get ticker name from axios call from js
-    data = request.get_json() #only works with axios.post?
+    data = request.get_json() #only works with axios.post? see parseAPIcall in script.js
     ticker_data = alphavantage_api_call(data['ticker']) #returns data ordered oldest to newest
 
     date_keys = []

@@ -18,3 +18,6 @@ Capstone steps:
 -add an evt listener to the body or element that is already loaded(may not be neded 
 since flask will reload a page with possbly new evt listeners every redirect)
 , be sure to remove them later if needed
+
+currently on: 
+make UI gen charts

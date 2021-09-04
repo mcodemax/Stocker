@@ -1,11 +1,24 @@
-const CHART = $('#stock-chart');
-const CHART2 = $('#stock-chart2');
 const OPTIMAL_CHART_LEN = 20;
-//const TICKER = ticker
+const $CHARTS_LIST = $('.chart');
 
-// show 3 charts at a time.
+//  https://api.jquery.com/each/ use to iterate over each stock
+//  chart and generate graph by calling chartFunc
+$CHARTS_LIST.each(async function(){ //Iterate over an array of selected jQuery Objects
+        
+        const ticker = $(this).attr('id').replace('-ticker', '');//works
+        console.log(ticker)
+        await chartFunc(ticker, $(this));
+        
+    }
+    
+);
+
 Chart.defaults.font.size = 10;
 
+/** 
+ * Input: ticker and jQueryChart object
+ * Causes a chart to be generated for a ticker on the DOM
+ */
 async function chartFunc(ticker, jQueChart){
     response = await parseAPIcall(ticker);
     console.log(response)
@@ -56,54 +69,8 @@ async function chartFunc(ticker, jQueChart){
 }
 
 
-let myChart2 = new Chart(CHART2, {
-    type: 'line',
-    data: {
-        labels: ['may', 'zsegszegeszg', 'zegseszgszgt', 'g', 'g'],
-        datasets: [{
-          label: 'My First Dataset',
-          data: [65, 59, 80, 81, 56, 55, 40],
-          fill: false,
-          borderColor: 'rgb(75, 192, 192)',
-          tension: 0.1
-        }]
-    },
-    options: {
-        // plugins: {
-        //     legend: {
-        //         labels: {
-        //             // This more specific font property overrides the global property
-        //             font: {
-        //                 size: 56
-        //             }
-        //         }
-        //     }
-        // },
-        scales: {
-            xAxis: {
-                gridLines: {
-                  display: false
-                },
-                ticks: {
-                    autoSkip: false,
-                    maxRotation: 45,
-                    minRotation: 45,
-                    font: {
-                       // family: 'Raleway', // Your font family
-                        fontSize: 60
-                    }
-                }
-
-              }
-        }
-    }
-});
-
-
-
-
 async function parseAPIcall(ticker){
-    const URL = 'testapi'
+    const URL = '/testapi' //https://stackoverflow.com/questions/54656818/axios-posting-to-wrong-url
     let res = await axios.post(URL, { ticker })
     console.log({res})
     console.log(res.data.date_keys)
@@ -114,50 +81,8 @@ async function parseAPIcall(ticker){
 
 //make an evt handler that detects canvas's with diff ticker ids
 
-
-
-
-
-
-// let myChart = new Chart(CHART, {
-//     type: 'line',
-//     data: {
-//         labels: ['may', 'zsegszegeszg', 'zegseszgszgt', 'g', 'g', 'zsegzsegop', 'g'],
-//         datasets: [{
-//           label: 'My First Dataset',
-//           data: [65, 59, 80, 81, 56, 55, 40],
-//           fill: false,
-//           borderColor: 'rgb(75, 192, 192)',
-//           tension: 0.1
-//         }]
-//     },
-//     options: {
-//         // plugins: {
-//         //     legend: {
-//         //         labels: {
-//         //             // This more specific font property overrides the global property
-//         //             font: {
-//         //                 size: 56
-//         //             }
-//         //         }
-//         //     }
-//         // },
-//         scales: {
-//             xAxis: {
-//                 gridLines: {
-//                   display: false
-//                 },
-//                 ticks: {
-//                     autoSkip: false,
-//                     maxRotation: 45,
-//                     minRotation: 45,
-//                     font: {
-//                        // family: 'Raleway', // Your font family
-//                         fontSize: 60
-//                     }
-//                 }
-
-//               }
-//         }
-//     }
-// });
+/*
+$(function() {
+    
+});
+*/
