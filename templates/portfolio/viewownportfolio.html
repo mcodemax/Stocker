@@ -25,7 +25,11 @@
     <div class="row justify-content-md-center">
         <div class="col-md-7 col-lg-5">
           {% for stock in portfolio.stocks %}
-          <li id="{{stock.ticker}}">{{ stock.ticker }} <button>X<a href="" class="del-btn"></a></button></li> 
+          <li id="{{stock.ticker}}">{{ stock.ticker }}<form action="/portfolio/{{ stock.portfolio_id }}/{{ stock.id }}/delete" method="POST">
+              <button class="del-btn" type="submit">X</button>
+            </form>
+          </li>
+          
           {% endfor %}
         </div>
     </div>

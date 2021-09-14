@@ -7,8 +7,6 @@ Capstone steps:
 -app.py around 173
 
 
-
-
 -add delete btn for stocks in viewownportfolio.html
 -maybe to make app easier just have app calculate the current value of your portfolio
 -don't allow duplicate symbols to be added
@@ -21,3 +19,20 @@ since flask will reload a page with possbly new evt listeners every redirect)
 
 currently on: 
 make UI gen charts
+
+
+Make this a stretch goal(make base firstline functionality app first b4 doing this stretch goal)(stretch goal):
+-since can only get 5 charts, making do caching of data
+-all user requests returned from application 
+-heroku might give trouble for background processes, to implement this, so might have to ditch
+
+
+
+Implementing sorting for a list to go through people's portfolios.
+-done from request through a browser
+
+
+Create a route when someone clicks X to remove a ticker.
+
+
+

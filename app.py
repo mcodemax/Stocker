@@ -198,6 +198,30 @@ def view_own_portfolio(user_id, portfolio_id):
         
     # ref the above portfolio/create route once youre done here
 
+@app.route('/portfolio/<int:portfolio_id>/<int:ticker_id>/delete', methods=["POST"]) #we need to add stock id/ticker here
+def delete_stock(portfolio_id, ticker_id):
+    """route to delete a stonk on portfolio"""
+    # in UI only allow an [X] to be shown if user logged in and they own that portfolio
+    ## see old projs how to delete stuff in warbler
+    ## reroute this route later to portfolio
+
+    
+    print('------------ahahaha-------------------')
+    stock = StocksPortfolio.query.get_or_404(ticker_id)
+
+    print(stock)
+
+
+    # if g.user.id(logged in user) === Portfolio.query.get_or_404(portfolio_id).user_id)
+    if g.user.id == Portfolio.query.get_or_404(portfolio_id).user_id:
+        db.session.delete(stock)
+        db.session.commit()
+    else:
+        flash(f"You aren't allowed to delete; permission denied!", 'danger')
+
+    return redirect(f"/portfolio/{g.user.id}/{portfolio_id}")
+    
+
 @app.route('/testapi', methods=["GET","POST"])
 def test_api():
 
