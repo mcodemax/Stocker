@@ -206,7 +206,7 @@ def delete_stock(portfolio_id, ticker_id):
     ## reroute this route later to portfolio
 
     
-    print('------------ahahaha-------------------')
+    
     stock = StocksPortfolio.query.get_or_404(ticker_id)
 
     print(stock)

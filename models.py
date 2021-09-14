@@ -126,12 +126,12 @@ class PortfolioUser(db.Model):
                     autoincrement=True)
 
     user_id = db.Column(db.Integer,
-                       db.ForeignKey("users.id", ondelete="cascade"),
-                       primary_key=True)
+                       db.ForeignKey("users.id", ondelete="cascade"))
+                       # primary_key=True) #not needed as primary key for this table
 
     portfolio_id = db.Column(db.Integer,  #having user_id FK in the Portfolio class above breaks the schema(if you leave primary_key=True in that particular part of the mentioned class)
-                       db.ForeignKey("portfolios.id", ondelete="cascade"),
-                       primary_key=True)                    
+                       db.ForeignKey("portfolios.id", ondelete="cascade"))
+                       # primary_key=True) #not needed as primary key for this table
 
 
 class StocksPortfolio(db.Model):
@@ -147,8 +147,13 @@ class StocksPortfolio(db.Model):
                     autoincrement=True)
 
     portfolio_id = db.Column(db.Integer,    #having user_id FK in the Portfolio class above breaks the schema(if you leave primary_key=True in that particular part of the mentioned class)
-                       db.ForeignKey("portfolios.id"),
-                       primary_key=True)
+                       db.ForeignKey("portfolios.id"))
+
+                       #primary_key=True) removed; not needed as primary key
+                       #issue with sqlalchemy, models, viewownportfolio.html, delete_stock route
+                       # don't have two primary keys
+                       #https://flask-sqlalchemy.palletsprojects.com/en/2.x/models/
+                       #see above on compound primary keys
 
     ticker = db.Column(db.String(MAX_NAME_LEN),
                         nullable=False)
