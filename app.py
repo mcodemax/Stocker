@@ -200,27 +200,34 @@ def view_own_portfolio(user_id, portfolio_id):
 
 @app.route('/portfolio/<int:portfolio_id>/<int:ticker_id>/delete', methods=["POST"]) #we need to add stock id/ticker here
 def delete_stock(portfolio_id, ticker_id):
-    """route to delete a stonk on portfolio"""
-    # in UI only allow an [X] to be shown if user logged in and they own that portfolio
-    ## see old projs how to delete stuff in warbler
-    ## reroute this route later to portfolio
-
-    
+    """route to delete a stock on portfolio"""
     
     stock = StocksPortfolio.query.get_or_404(ticker_id)
 
-    print(stock)
-
-
-    # if g.user.id(logged in user) === Portfolio.query.get_or_404(portfolio_id).user_id)
-    if g.user.id == Portfolio.query.get_or_404(portfolio_id).user_id:
+    #re-examine logic for if statement below, maybe should use ticker_id to validate
+    # a query search?
+    if g.user.id == Portfolio.query.get_or_404(portfolio_id).user_id: 
         db.session.delete(stock)
         db.session.commit()
     else:
         flash(f"You aren't allowed to delete; permission denied!", 'danger')
 
     return redirect(f"/portfolio/{g.user.id}/{portfolio_id}")
-    
+
+@app.route('/portfolio/<int:portfolio_id>/delete', methods=["POST"]) #we need to add stock id/ticker here
+def delete_portfolio(portfolio_id):
+    """route to delete a user's portfolio"""
+
+    portfolio = Portfolio.query.get_or_404(portfolio_id)
+
+    # maybe add a check to make use portfolio_id(user_id) = id of the user_id in url
+    if g.user.id == portfolio.user_id: 
+        db.session.delete(portfolio)
+        db.session.commit()
+    else:
+        flash(f"You aren't allowed to delete; permission denied!", 'danger')
+
+    return redirect("/")
 
 @app.route('/testapi', methods=["GET","POST"])
 def test_api():

@@ -18,7 +18,11 @@
     Your Portfolios:
     <ul>
         {% for portfolio in user.portfolios %}
-        <li><a href="/portfolio/{{portfolio.user_id}}/{{portfolio.id}}">{{ portfolio.name }}</a></li> <!--add in href-->
+        <li><a href="/portfolio/{{portfolio.user_id}}/{{portfolio.id}}">{{ portfolio.name }}</a>
+            <form action="/portfolio/{{portfolio.id}}/delete" method="POST">
+                <button class="del-btn" type="submit">X</button>
+            </form>
+        </li> <!--add in href-->
         {% endfor %}
     </ul>
 </div>
