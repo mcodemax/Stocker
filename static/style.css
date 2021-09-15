@@ -11,3 +11,11 @@
 .join-message {
     color: whitesmoke
 }
+
+li form {
+    display: inline-block;
+}
+
+li button {
+    /* add later */
+}

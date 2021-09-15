@@ -105,7 +105,7 @@ class Portfolio(db.Model):
     description = db.Column(db.String(MAX_NOTE_LEN),
                         nullable=False)
 
-    profit = db.Column(db.Float,
+    value = db.Column(db.Float,
                         default=0)
 
     # tells what user made this portfolio
@@ -159,5 +159,5 @@ class StocksPortfolio(db.Model):
                         nullable=False)
 
     # implement later:
-    # amount = db.Column(db.Integer, nullable=False,
-                        # default=1)
+    amount = db.Column(db.Integer, nullable=False,
+                        default=1)

@@ -7,19 +7,6 @@ Capstone steps:
 -app.py around 173
 
 
--add delete btn for stocks in viewownportfolio.html
--maybe to make app easier just have app calculate the current value of your portfolio
--don't allow duplicate symbols to be added
-
-
-
--add an evt listener to the body or element that is already loaded(may not be neded 
-since flask will reload a page with possbly new evt listeners every redirect)
-, be sure to remove them later if needed
-
-currently on: 
-make UI gen charts
-
 
 Make this a stretch goal(make base firstline functionality app first b4 doing this stretch goal)(stretch goal):
 -since can only get 5 charts, making do caching of data
@@ -34,5 +21,17 @@ Implementing sorting for a list to go through people's portfolios.
 
 Create a route when someone clicks X to remove a ticker.
 
+API Issues: 5 requests/min
 
 
+Todos to implement:
+
+- in viewownportfolio.html edit ticker quanitity, add it on the form
+
+-hide the "add ticker" button for 20 seconds so the API doesn't crash, implement in js?
+-prevent creating portfolios with duplicate names
+
+- Users view others portfolios without being able to edit (might ditch this goal)
+- Change chartjs text colors from grey to something more readible
+
+{{ | length }} template stuff to make length or something for ref

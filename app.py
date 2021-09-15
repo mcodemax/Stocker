@@ -10,6 +10,7 @@ from forms import UserAddForm, LoginForm, CreatePortfolioForm, AddStockForm
 from sqlalchemy.exc import IntegrityError
 import requests
 
+
 CURR_USER_KEY = "curr_user"
 ALPHA_VAN_API_KEY = 'ZM8LBVFEHBG9JWEP'
 
@@ -20,7 +21,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = (
 #@ people looking at this code; you may need to change on your own computer for code to work
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_ECHO'] = True #prints in ipython the queries being run
+app.config['SQLALCHEMY_ECHO'] = False #prints in ipython the queries being run
 app.config["SECRET_KEY"] = "maxcode1" #put this in a secret file later
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 debug = DebugToolbarExtension(app)
@@ -175,6 +176,27 @@ def view_own_portfolio(user_id, portfolio_id):
     if (form.validate_on_submit() and 
         g.user.id == Portfolio.query.get_or_404(portfolio_id).user_id):
         
+        portfolio_stocks = []
+        # if portfolio.stocks length > 5 
+        # show warning only 5 stocks allowed, due to free API limits
+        portfolio = StocksPortfolio.query.filter_by(portfolio_id = portfolio_id).all() 
+        portfolio_size = len(portfolio)
+        if(portfolio_size >= 5):
+            flash("This ticker cannot be added to this portfolio; limit is 5 tickers due to API limits.", 'danger')
+            return redirect(f"/portfolio/{user_id}/{portfolio_id}")
+
+        # code below needed to see if there are duplcate tickers
+        if portfolio_size > 0:
+            for stock in portfolio:
+                portfolio_stocks.append(stock.ticker)
+        
+        #prevents duplicate tickers from being added
+        # broken rn; looks at all tickers available in the backend db of al portoflios
+        if (form.ticker.data).upper() in portfolio_stocks:
+            flash("This ticker is already in the portfolio", 'danger')
+            return redirect(f"/portfolio/{user_id}/{portfolio_id}")
+        
+
         #valididate ticker symbol
         if not check_valid_ticker(form.ticker.data):    
             flash("This ticker cannot be added (doesn't exist)", 'danger')
