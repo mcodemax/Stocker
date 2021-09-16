@@ -34,4 +34,6 @@ Todos to implement:
 - Users view others portfolios without being able to edit (might ditch this goal)
 - Change chartjs text colors from grey to something more readible
 
+-add something on front page to make app look nicer
+
 {{ | length }} template stuff to make length or something for ref
