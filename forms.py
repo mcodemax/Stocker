@@ -1,7 +1,7 @@
 from os import name
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, TextAreaField
-from wtforms.validators import DataRequired, Email, Length
+from wtforms import StringField, PasswordField, TextAreaField, IntegerField
+from wtforms.validators import DataRequired, Email, Length, NumberRange
 from models import MAX_NAME_LEN, MAX_EMAIL_LEN, MAX_NOTE_LEN, MAX_USERNAME_LEN, MAX_TITLE_LEN
 
 class LoginForm(FlaskForm):
@@ -32,3 +32,5 @@ class AddStockForm(FlaskForm):
     """Form for adding a stock"""
 
     ticker = StringField('Add a ticker', validators=[DataRequired(), Length(max=MAX_NAME_LEN)])
+    amount = IntegerField('Quantity of Stock', validators=[DataRequired(message='Invalid amount, must be 1 or more'), 
+                                                NumberRange(min=1, message='Invalid amount, must be 1 or more')])

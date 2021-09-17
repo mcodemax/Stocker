@@ -60,7 +60,7 @@ class User(db.Model):
     # feedback = db.relationship("Feedback", backref="user", cascade="all, delete-orphan")
     #def function to salt/encrpyt password
     
-    # still needs to be fixed
+    
     @classmethod
     def register(cls, username, password, email, first_name, last_name, image_url=DEFAULT_USER_IMG):
 
@@ -75,7 +75,7 @@ class User(db.Model):
 
         return user
 
-    #still needs to be fixed
+    
     @classmethod
     def authenticate(cls, username, pwd):
         """Validate User existence and correct password"""
@@ -105,8 +105,9 @@ class Portfolio(db.Model):
     description = db.Column(db.String(MAX_NOTE_LEN),
                         nullable=False)
 
+    # value may not be needed cause it is calculated semi-real time in app.py with the close_price_dict
     value = db.Column(db.Float,
-                        default=0)
+                        default=0) 
 
     # tells what user made this portfolio
     user_id = db.Column(db.Integer,

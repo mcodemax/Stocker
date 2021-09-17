@@ -27,6 +27,7 @@ API Issues: 5 requests/min
 Todos to implement:
 
 - in viewownportfolio.html edit ticker quanitity, add it on the form
+    -see view_own_portfolio route
 
 -hide the "add ticker" button for 20 seconds so the API doesn't crash, implement in js?
 -prevent creating portfolios with duplicate names
@@ -37,3 +38,8 @@ Todos to implement:
 -add something on front page to make app look nicer
 
 {{ | length }} template stuff to make length or something for ref
+
+------
+new features added:
+close_price_dict to store lastest closing price of stock to avoid double calling of API
+models/forms.py have amount of stock added

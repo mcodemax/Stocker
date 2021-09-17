@@ -1,5 +1,6 @@
 import os
 from random import randint
+from typing import Dict
 from flask import Flask, render_template, redirect, request, jsonify, session, flash, g 
 from flask_debugtoolbar import DebugToolbarExtension
 from wtforms.widgets.core import CheckboxInput
@@ -13,6 +14,7 @@ import requests
 
 CURR_USER_KEY = "curr_user"
 ALPHA_VAN_API_KEY = 'ZM8LBVFEHBG9JWEP'
+close_price_dict = {}
 
 app = Flask(__name__)
 CORS(app) #https://flask-cors.readthedocs.io/en/latest/
@@ -176,8 +178,10 @@ def view_own_portfolio(user_id, portfolio_id):
     if (form.validate_on_submit() and 
         g.user.id == Portfolio.query.get_or_404(portfolio_id).user_id):
         
+        #possibly add <int:amount>
+
+
         portfolio_stocks = []
-        # if portfolio.stocks length > 5 
         # show warning only 5 stocks allowed, due to free API limits
         portfolio = StocksPortfolio.query.filter_by(portfolio_id = portfolio_id).all() 
         portfolio_size = len(portfolio)
@@ -261,12 +265,16 @@ def test_api():
 
     date_keys = []
     price_vals = []
-    #print(ticker_data)
-
+    
+    
     for k, v in ticker_data['Time Series (Daily)'].items(): 
         #print(k, v)
         date_keys.append(k)
         price_vals.append(v['4. close'])
+
+    close_price_dict[data['ticker']] = price_vals[0] 
+    # stores the most recent close price in a dict
+    # to calc the total portfolio val later
 
     date_keys.reverse()
     price_vals.reverse()
@@ -301,3 +309,6 @@ def check_valid_ticker(ticker):
     
     return True
     
+
+def store_close_prices(ticker, close_price):
+    close_price_dict[ticker] = close_price
