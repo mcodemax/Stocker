@@ -197,11 +197,14 @@ def view_own_portfolio(user_id, portfolio_id):
         #prevents duplicate tickers from being added
         # broken rn; looks at all tickers available in the backend db of al portoflios
         if (form.ticker.data).upper() in portfolio_stocks:
-            flash("This ticker is already in the portfolio", 'danger')
+            flash(f"Added {form.amount.data} shares of {(form.ticker.data).upper()}", 'success')
+
+            for stock in portfolio:
+                if stock.ticker == (form.ticker.data).upper():
+                    stock.amount+=form.amount.data
+                    db.session.commit()
             return redirect(f"/portfolio/{user_id}/{portfolio_id}")
-            # change to flash success added ${50} shares of ${stockticker}
-            # SOMETHING.amount = amount + something.amount
-            # db.session.commit()
+            
 
         #valididate ticker symbol
         if not check_valid_ticker(form.ticker.data):    
@@ -210,7 +213,7 @@ def view_own_portfolio(user_id, portfolio_id):
             
 
         try:
-            stock_portf_link = StocksPortfolio(portfolio_id=portfolio_id, ticker=(form.ticker.data).upper())
+            stock_portf_link = StocksPortfolio(portfolio_id=portfolio_id, ticker=(form.ticker.data).upper(), amount=form.amount.data)
             db.session.add(stock_portf_link)
             db.session.commit()
             return redirect(f"/portfolio/{g.user.id}/{portfolio_id}")
@@ -223,6 +226,20 @@ def view_own_portfolio(user_id, portfolio_id):
         # pass in form as well as the user's list of stocks in that particular portfolio
         if g.user.id == Portfolio.query.get_or_404(portfolio_id).user_id:
             portfolio = Portfolio.query.get_or_404(portfolio_id)
+
+
+            #  MIGHT NEED TO DO THIS PART IN JS BC ON FIRST LOAD
+            #  WE CANT GET STOCK DATA BEFORE HTML and AXIOS DATA PASSED TO BROWSER
+        # portfolio_stocks = []
+        # value = 0
+        # for stock in portfolio:
+        #     portfolio_stocks.append(stock.ticker)
+        #     # missing code
+        
+
+        # possibly have our API append closing price from each API call to close_price_dit
+        # we need2call a f() that calls close_price_dict to multiply by portfolio's amounts
+        
         return render_template('/portfolio/viewownportfolio.html', form=form, portfolio=portfolio)
         
     # ref the above portfolio/create route once youre done here
