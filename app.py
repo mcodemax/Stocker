@@ -199,12 +199,15 @@ def view_own_portfolio(user_id, portfolio_id):
         if (form.ticker.data).upper() in portfolio_stocks:
             flash("This ticker is already in the portfolio", 'danger')
             return redirect(f"/portfolio/{user_id}/{portfolio_id}")
-        
+            # change to flash success added ${50} shares of ${stockticker}
+            # SOMETHING.amount = amount + something.amount
+            # db.session.commit()
 
         #valididate ticker symbol
         if not check_valid_ticker(form.ticker.data):    
             flash("This ticker cannot be added (doesn't exist)", 'danger')
             return redirect(f"/portfolio/{user_id}/{portfolio_id}")
+            
 
         try:
             stock_portf_link = StocksPortfolio(portfolio_id=portfolio_id, ticker=(form.ticker.data).upper())

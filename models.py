@@ -106,8 +106,8 @@ class Portfolio(db.Model):
                         nullable=False)
 
     # value may not be needed cause it is calculated semi-real time in app.py with the close_price_dict
-    value = db.Column(db.Float,
-                        default=0) 
+    # value = db.Column(db.Float,
+    #                     default=0) 
 
     # tells what user made this portfolio
     user_id = db.Column(db.Integer,
@@ -159,6 +159,5 @@ class StocksPortfolio(db.Model):
     ticker = db.Column(db.String(MAX_NAME_LEN),
                         nullable=False)
 
-    # implement later:
     amount = db.Column(db.Integer, nullable=False,
                         default=1)

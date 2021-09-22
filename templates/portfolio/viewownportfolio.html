@@ -25,7 +25,7 @@
     <div class="row justify-content-md-center">
         <div class="col-md-7 col-lg-5">
           {% for stock in portfolio.stocks %}
-          <li id="{{stock.ticker}}">{{ stock.ticker }} <form action="/portfolio/{{ stock.portfolio_id }}/{{ stock.id }}/delete" method="POST">
+          <li id="{{stock.ticker}}">{{ stock.amount }} shares of {{ stock.ticker }} <form action="/portfolio/{{ stock.portfolio_id }}/{{ stock.id }}/delete" method="POST">
               <button class="del-btn" type="submit">X</button>
             </form>
           </li>
@@ -58,4 +58,8 @@
 </div>
 <!-- loop the stocks in the portfolio and generate a graph for each one -->
 
+<div id="portfolio-value">
+  <!-- calc prtfolio value by using iterating thru stocks in portfolio and doing stock.amount * close_price_dict[ticker] for each ticker in the backend -->
+  
+</div>
 {% endblock %}

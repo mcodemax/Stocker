@@ -28,9 +28,13 @@ Todos to implement:
 
 - in viewownportfolio.html edit ticker quanitity, add it on the form
     -see view_own_portfolio route
+on viewownportfolio show total holdings value
+    -iterate thru all stocks, get the recent closing price from close_price_dict
+    -display like {{close_price_dict[ticker]*amount+.. + ..+.. +.. }}
 
--hide the "add ticker" button for 20 seconds so the API doesn't crash, implement in js?
--prevent creating portfolios with duplicate names
+-after a page using route using (ditch for right now)
+    -hide the "add ticker" button for 20 seconds so the API doesn't crash, implement in js?
+    -prevent creating portfolios with duplicate names
 
 - Users view others portfolios without being able to edit (might ditch this goal)
 - Change chartjs text colors from grey to something more readible
@@ -39,7 +43,13 @@ Todos to implement:
 
 {{ | length }} template stuff to make length or something for ref
 
-------
-new features added:
-close_price_dict to store lastest closing price of stock to avoid double calling of API
-models/forms.py have amount of stock added
+-stocker homepage needs imagery something financial
+
+-put borders on UI
+    -use bootstrap seperator classes and borders
+    -use possibly less plots for ticker charts
+
+-the way you access ticker data should be the same whether you fetch data from api or database
+    -the way you would do this 
+
+-----
