@@ -5,7 +5,15 @@
 //possibly pause 20seconds each page load; have it reflect in jinja templates
 //  if this needed to be added
 
-const closing_prices = {'NVDA': 55.25, 'IBM': 10.63};//need to be updated after page loads charts
+const closing_prices = {};
+
+
+// this timer is used to wait for api to call and store stuff into the array
+setTimeout(() => {console.log("this is the first message")
+    //could add to only exec this f() after a certain page loads by seeing if a certain ele exists.
+    calcPortfolioVal();
+}, 2000);
+
 
 //https://stackoverflow.com/questions/149055/how-to-format-numbers-as-currency-strings
 const formatter = new Intl.NumberFormat('en-US', {
@@ -17,6 +25,7 @@ const formatter = new Intl.NumberFormat('en-US', {
     //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
 });
 
+/**calculates portfolio value and adds to DOM */
 async function calcPortfolioVal(){
     let total = 0;
     const $CHARTS_LIST_AMT = $('.tickerlisting');
@@ -50,7 +59,7 @@ async function parseAPIcall(ticker){
 
 
 $(function() {
-    const OPTIMAL_CHART_LEN = 20;
+    const OPTIMAL_CHART_LEN = 15;
     const $CHARTS_LIST = $('.chart');
 
     //  https://api.jquery.com/each/ use to iterate over each stock
@@ -65,7 +74,7 @@ $(function() {
         
     );
 
-    Chart.defaults.font.size = 10;
+    Chart.defaults.font.size = 15;
 
     /** 
      * Input: ticker and jQueryChart object
@@ -77,6 +86,8 @@ $(function() {
         datesArr = response.data.date_keys;
         priceArr = response.data.price_vals;
         console.log({datesArr, priceArr})
+
+        closing_prices[ticker] = priceArr[priceArr.length - 1]; //put the current val of stock into closing prices array for later use
 
         //for calc portflolio val later
         // closing_prices.push({ticker: priceArr[OPTIMAL_CHART_LEN - 1]})
@@ -128,8 +139,3 @@ $(function() {
     }
     
 });
-
-
-//wait 3-6 seconds for page to load, then calculate portfolio value and append to html
-//get html "data" attr from each ticker's li 
-//append val on html ele with id="portfolio-value"
