@@ -38,7 +38,7 @@ Todos to implement:
 
 {{ | length }} template stuff to make length or something for ref
 
--stocker homepage needs imagery something financial
+
 
 -put borders on UI
     -use bootstrap seperator classes and borders
@@ -49,3 +49,7 @@ Todos to implement:
     -the way you would do this 
 
 -----
+
+stockermainbkrnd taken from (Photo: Getty Images)
+
+-stocker homepage change to financial imagery

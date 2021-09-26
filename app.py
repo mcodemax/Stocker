@@ -72,7 +72,7 @@ def homepage():
     if None != g.user and g.user.id == User.query.get_or_404(session[CURR_USER_KEY]).id:
         return render_template('users/loggedin.html', user=g.user)
     else:
-        return render_template("base.html")
+        return render_template("home.html")
 
 @app.route('/signup', methods=["GET", "POST"])
 def signup():
