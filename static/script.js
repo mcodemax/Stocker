@@ -12,7 +12,7 @@ const closing_prices = {};
 setTimeout(() => {console.log("this is the first message")
     //could add to only exec this f() after a certain page loads by seeing if a certain ele exists.
     calcPortfolioVal();
-}, 2000);
+}, 3000);
 
 
 //https://stackoverflow.com/questions/149055/how-to-format-numbers-as-currency-strings
@@ -75,7 +75,7 @@ $(function() {
     );
 
     Chart.defaults.font.size = 15;
-
+    Chart.defaults.font.color = '#598ec0';
     /** 
      * Input: ticker and jQueryChart object
      * Causes a chart to be generated for a ticker on the DOM
@@ -126,7 +126,8 @@ $(function() {
                             minRotation: 90,
                             font: {
                             // family: 'Raleway', // Your font family
-                                fontSize: 60
+                                fontSize: 60,
+                                // color: '#598ec0'
                             }
                         }
         

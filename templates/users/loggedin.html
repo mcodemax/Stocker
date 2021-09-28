@@ -5,7 +5,7 @@
 <!-- user info -->
 <div>
     <div id="user-img" class="user-details">
-        <img src="{{ user.image_url }}" alt="IMAGE NOT FOUND">
+        <img class="user-img" src="{{ user.image_url }}" alt="IMAGE NOT FOUND">
     </div>
     <div>
         <p>Hello {{ user.username }}</p>
@@ -20,7 +20,7 @@
         {% for portfolio in user.portfolios %}
         <li><a href="/portfolio/{{portfolio.user_id}}/{{portfolio.id}}">{{ portfolio.name }}</a>
             <form action="/portfolio/{{portfolio.id}}/delete" method="POST">
-                <button class="del-btn" type="submit">X</button>
+                <button class="del-btn" type="submit"></button>
             </form>
         </li> <!--add in href-->
         {% endfor %}
@@ -32,7 +32,7 @@
 
 <div>
     <form action="/portfolio/create"> <!--send2new portfolio page-->
-        <button type="submit">CREATE A NEW PORTFOLIO</button>
+        <button class="btn-portfolio" type="submit">CREATE A NEW PORTFOLIO</button>
     </form>
 </div>
 
