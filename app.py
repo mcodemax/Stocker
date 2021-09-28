@@ -5,7 +5,7 @@ from flask import Flask, render_template, redirect, request, jsonify, session, f
 from flask_debugtoolbar import DebugToolbarExtension
 from wtforms.widgets.core import CheckboxInput
 # import requests
-from models import StocksPortfolio, db, connect_db, User, Portfolio, PortfolioUser #, StocksPortfolio
+from models import StocksPortfolio, db, connect_db, User, Portfolio, PortfolioUser
 from flask_cors import CORS
 from forms import UserAddForm, LoginForm, CreatePortfolioForm, AddStockForm
 from sqlalchemy.exc import IntegrityError
@@ -25,6 +25,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = (
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False #prints in ipython the queries being run
 app.config["SECRET_KEY"] = "maxcode1" #put this in a secret file later
+# https://stackoverflow.com/questions/30873189/where-should-i-place-the-secret-key-in-flask
+
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 debug = DebugToolbarExtension(app)
 

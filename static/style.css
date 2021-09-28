@@ -13,6 +13,10 @@
     color: whitesmoke
 }
 
+.home h4 {
+    font-size: xx-large;
+}
+
 li form {
     display: inline-block;
 }

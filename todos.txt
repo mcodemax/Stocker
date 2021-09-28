@@ -1,11 +1,8 @@
 Capstone steps:
--maybe on the portfolio page; generate a new chart everytime you press the chart button
-
 
 -implement a function that will be put in most routes to ensure the user is logged in
 -vizio your routes n stuff
 -app.py around 173
-
 
 
 Make this a stretch goal(make base firstline functionality app first b4 doing this stretch goal)(stretch goal):
@@ -13,13 +10,6 @@ Make this a stretch goal(make base firstline functionality app first b4 doing th
 -all user requests returned from application 
 -heroku might give trouble for background processes, to implement this, so might have to ditch
 
-
-
-Implementing sorting for a list to go through people's portfolios.
--done from request through a browser
-
-
-Create a route when someone clicks X to remove a ticker.
 
 API Issues: 5 requests/min
 
@@ -32,7 +22,6 @@ Todos to implement:
     -hide the "add ticker" button for 20 seconds so the API doesn't crash, implement in js?
     
 
-- Users view others portfolios without being able to edit (might ditch this goal)
 - Change chartjs text colors from grey to something more readible
 
 
