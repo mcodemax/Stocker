@@ -1,4 +1,4 @@
-"""User View tests."""
+"""App route tests."""
 
 # run these tests like:
 #
@@ -31,9 +31,75 @@ db.create_all()
 
 app.config['WTF_CSRF_ENABLED'] = False
 
-class UserViews(TestCase):
+class AppRoutes(TestCase):
     """Test userviews."""
 
-    #test portfolio creation
-    #test loggedin
-    #test ticker additions
+
+    def setUp(self):
+        """Create test client, add sample data."""
+
+        db.drop_all()
+        db.create_all()
+
+        self.client = app.test_client()
+
+        self.testuser = User.register(
+                first_name='First',
+                last_name='Last',
+                username='Username1',
+                password='passy1',
+                email='email@email.com',
+                image_url = User.image_url.default.arg,
+            )
+        db.session.commit()
+
+    def tearDown(self):
+        resp = super().tearDown()
+        db.session.rollback()
+        return resp
+
+
+    def test_logged_in_page(self):
+        with self.client as c:
+            with c.session_transaction() as sess:
+                sess[CURR_USER_KEY] = self.testuser.id
+               
+            resp = c.get("/")
+
+            self.assertIn("Hello First", str(resp.data))
+
+    def test_portfolio_creation(self):
+        with self.client as c:
+            with c.session_transaction() as sess:
+                sess[CURR_USER_KEY] = self.testuser.id
+
+            resp = c.post(f"/portfolio/create", data={
+                'name': 'Stonksy',
+                'description': 'Memes'
+            }, follow_redirects=True)
+            self.assertIn("Stonksy", str(resp.data))
+            
+    def test_stock_addition(self):
+        with self.client as c:
+            with c.session_transaction() as sess:
+                sess[CURR_USER_KEY] = self.testuser.id
+        
+            c.post(f"/portfolio/create", data={
+                    'name': 'Stonksy',
+                    'description': 'Memes'
+                }, follow_redirects=True)
+
+            portfolio = Portfolio.query.filter(Portfolio.name == 'Stonksy').first()
+
+            #ensures we get to portfolio detail page
+            resp = c.get(f"/portfolio/{self.testuser.id}/{portfolio.id}")
+            self.assertIn("Memes", str(resp.data))
+
+            #ensures stock added
+            resp = c.post(f"/portfolio/{self.testuser.id}/{portfolio.id}", data={
+                'ticker': 'NVDA',
+                'amount': 50
+            }, follow_redirects=True)
+            self.assertIn("NVDA", str(resp.data))
+
+        
