@@ -30,14 +30,12 @@ app.config["SECRET_KEY"] = "maxcode1" #put this in a secret file later
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 debug = DebugToolbarExtension(app)
 
-
 connect_db(app)
 
 db.create_all()
 
 ##############################################################################
 # User signup/login/logout
-
 
 @app.before_request
 def add_user_to_g():
@@ -58,14 +56,11 @@ def do_login(user):
 
     session[CURR_USER_KEY] = user.id
 
-
 def do_logout():
     """Logout user."""
 
     if CURR_USER_KEY in session:
         del session[CURR_USER_KEY]
-
-
 
 @app.route("/")
 def homepage():
@@ -180,9 +175,6 @@ def view_own_portfolio(user_id, portfolio_id):
     if (form.validate_on_submit() and 
         g.user.id == Portfolio.query.get_or_404(portfolio_id).user_id):
         
-        #possibly add <int:amount>
-
-
         portfolio_stocks = []
         # show warning only 5 stocks allowed, due to free API limits
         portfolio = StocksPortfolio.query.filter_by(portfolio_id = portfolio_id).all() 
@@ -207,13 +199,11 @@ def view_own_portfolio(user_id, portfolio_id):
                     db.session.commit()
             return redirect(f"/portfolio/{user_id}/{portfolio_id}")
             
-
         #valididate ticker symbol
         if not check_valid_ticker(form.ticker.data):    
             flash("This ticker cannot be added (doesn't exist)", 'danger')
             return redirect(f"/portfolio/{user_id}/{portfolio_id}")
             
-
         try:
             stock_portf_link = StocksPortfolio(portfolio_id=portfolio_id, ticker=(form.ticker.data).upper(), amount=form.amount.data)
             db.session.add(stock_portf_link)
@@ -229,19 +219,6 @@ def view_own_portfolio(user_id, portfolio_id):
         if g.user.id == Portfolio.query.get_or_404(portfolio_id).user_id:
             portfolio = Portfolio.query.get_or_404(portfolio_id)
 
-
-            #  MIGHT NEED TO DO THIS PART IN JS BC ON FIRST LOAD
-            #  WE CANT GET STOCK DATA BEFORE HTML and AXIOS DATA PASSED TO BROWSER
-        # portfolio_stocks = []
-        # value = 0
-        # for stock in portfolio:
-        #     portfolio_stocks.append(stock.ticker)
-        #     # missing code
-        
-
-        # possibly have our API append closing price from each API call to close_price_dit
-        # we need2call a f() that calls close_price_dict to multiply by portfolio's amounts
-        
         return render_template('/portfolio/viewownportfolio.html', form=form, portfolio=portfolio)
         
     # ref the above portfolio/create route once youre done here
@@ -252,8 +229,6 @@ def delete_stock(portfolio_id, ticker_id):
     
     stock = StocksPortfolio.query.get_or_404(ticker_id)
 
-    #re-examine logic for if statement below, maybe should use ticker_id to validate
-    # a query search?
     if g.user.id == Portfolio.query.get_or_404(portfolio_id).user_id: 
         db.session.delete(stock)
         db.session.commit()
@@ -305,7 +280,6 @@ def test_api():
         'date_keys': date_keys,
         'price_vals': price_vals
     }
-    
 
 # https://github.com/mcodemax/Lucky_Number_Flask_2/blob/master/lucky-nums/app.py refer for api calls
 def alphavantage_api_call(ticker):
@@ -316,11 +290,7 @@ def alphavantage_api_call(ticker):
     data = r.json()
 
     return data
-    # d.get("Time Series (Daily)") gets the daily open/close vol data
-
-# def parse_alpha_call_data(data):
-
-
+    
 def check_valid_ticker(ticker):
     """check if symbol is valid ticker, returns True if valid"""
 
@@ -329,8 +299,4 @@ def check_valid_ticker(ticker):
     if 'Error Message' in response.keys():
         return False
     
-    return True
-    
-
-def store_close_prices(ticker, close_price):
-    close_price_dict[ticker] = close_price
+    return True    

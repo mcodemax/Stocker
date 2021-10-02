@@ -2,8 +2,6 @@ Capstone steps:
 
 -implement a function that will be put in most routes to ensure the user is logged in
 -vizio your routes n stuff
--app.py around 173
-
 
 Make this a stretch goal(make base firstline functionality app first b4 doing this stretch goal)(stretch goal):
 -since can only get 5 charts, making do caching of data
@@ -27,15 +25,6 @@ Todos to implement:
 
 {{ | length }} template stuff to make length or something for ref
 
-
-
--put borders on UI
-    -use bootstrap seperator classes and borders
-        -see email for details
-    -use possibly less plots for ticker charts
-
--the way you access ticker data should be the same whether you fetch data from api or database
-    -the way you would do this 
 
 -----
 
