@@ -1,30 +1,33 @@
 import os
+import re
 from random import randint
 from typing import Dict
 from flask import Flask, render_template, redirect, request, jsonify, session, flash, g 
 from flask_debugtoolbar import DebugToolbarExtension
 from wtforms.widgets.core import CheckboxInput
-# import requests
+from secretcodes import ALPHA_VAN_API_KEY, SECRET_KEY
 from models import StocksPortfolio, db, connect_db, User, Portfolio, PortfolioUser
 from flask_cors import CORS
 from forms import UserAddForm, LoginForm, CreatePortfolioForm, AddStockForm
 from sqlalchemy.exc import IntegrityError
 import requests
 
-
 CURR_USER_KEY = "curr_user"
-ALPHA_VAN_API_KEY = 'ZM8LBVFEHBG9JWEP'
 close_price_dict = {}
 
 app = Flask(__name__)
 CORS(app) #https://flask-cors.readthedocs.io/en/latest/
+
 app.config['SQLALCHEMY_DATABASE_URI'] = (
     os.environ.get('DATABASE_URL', 'postgresql://postgres:myPassword@localhost:5433/stocker')) 
-#@ people looking at this code; you may need to change on your own computer for code to work
+
+# rest of connection code using the connection string `uri`
+if app.config['SQLALCHEMY_DATABASE_URI'].startswith('postgres://'):
+	app.config['SQLALCHEMY_DATABASE_URI'] = app.config['SQLALCHEMY_DATABASE_URI'].replace('postgres://', 'postgresql://', 1)
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False #prints in ipython the queries being run
-app.config["SECRET_KEY"] = "maxcode1" #put this in a secret file later
+app.config["SECRET_KEY"] = SECRET_KEY #put this in a secret file later
 # https://stackoverflow.com/questions/30873189/where-should-i-place-the-secret-key-in-flask
 
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
@@ -32,7 +35,7 @@ debug = DebugToolbarExtension(app)
 
 connect_db(app)
 
-db.create_all()
+# db.create_all() #comment out for Heroku deployment, creates initial database
 
 ##############################################################################
 # User signup/login/logout

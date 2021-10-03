@@ -43,8 +43,7 @@ To access required tools, run the following in terminal:
 Then run the server by typing `flask run`
 
 **The code in this repo is written specifically for deployment purposes. In order to interact with the code locally on your machine, you must do the following:**
-1. Go to Edit settings, update the website to `http://localhost:5000/`, and set the redirect URI to `http://localhost:5000/callback/`.
-3. Create a file `secret_codes.py` and define the `CLIENT_ID` and `CLIENT_SECRET` variables according to the client id and client secret strings found in your Spotify dashboard.
+1. Create a file `secret_codes.py` and define the `CLIENT_ID` and `CLIENT_SECRET` variables according to the client id and client secret strings found in your Spotify dashboard.
     - DON'T FORGET TO ADD THIS FILE TO YOUR `.gitignore` FILE
 5. Go into `_startup.py`, comment out the `CLIENT_ID` and `CLIENT_SECRET` variables (lines 16 and 17), and uncomment the import command (line 14).
 6. Go into `search.js`, comment out line 18 and uncomment the `SEARCH_URL` variable on line 16.

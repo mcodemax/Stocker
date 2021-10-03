@@ -20,7 +20,6 @@ MAX_NOTE_LEN = 5000
 MAX_TITLE_LEN = 100
 DEFAULT_USER_IMG = 'https://i.redd.it/c9lg95srmj521.png'
 
-
 class User(db.Model):
     """Users."""
 
