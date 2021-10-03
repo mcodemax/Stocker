@@ -27,7 +27,7 @@ if app.config['SQLALCHEMY_DATABASE_URI'].startswith('postgres://'):
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False #prints in ipython the queries being run
-app.config["SECRET_KEY"] = SECRET_KEY #put this in a secret file later
+app.config["SECRET_KEY"] = os.environ.get('SECRET_KEY', SECRET_KEY) #put this in a secret file later
 # https://stackoverflow.com/questions/30873189/where-should-i-place-the-secret-key-in-flask
 
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
@@ -46,10 +46,6 @@ def add_user_to_g():
 
     if CURR_USER_KEY in session:
         g.user = User.query.get(session[CURR_USER_KEY])
-
-        print('*********************************')
-        print(f"{session[CURR_USER_KEY]} and {g.user}")
-
     else:
         g.user = None
 
@@ -268,7 +264,6 @@ def test_api():
     
     
     for k, v in ticker_data['Time Series (Daily)'].items(): 
-        #print(k, v)
         date_keys.append(k)
         price_vals.append(v['4. close'])
 
