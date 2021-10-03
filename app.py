@@ -14,7 +14,7 @@ import requests
 
 CURR_USER_KEY = "curr_user"
 close_price_dict = {}
-print(SECRET_KEY)
+ALPHA_VAN_API_KEY = os.environ.get('ALPHA_VAN_API_KEY', 'nothere') #comment out deving Stocker locally
 
 app = Flask(__name__)
 CORS(app) #https://flask-cors.readthedocs.io/en/latest/
