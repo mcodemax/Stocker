@@ -5,7 +5,7 @@ from typing import Dict
 from flask import Flask, render_template, redirect, request, jsonify, session, flash, g 
 from flask_debugtoolbar import DebugToolbarExtension
 from wtforms.widgets.core import CheckboxInput
-from secretcodes import ALPHA_VAN_API_KEY, SECRET_KEY
+# from secretcodes import ALPHA_VAN_API_KEY, SECRET_KEY #comment out if working on Stocker locally
 from models import StocksPortfolio, db, connect_db, User, Portfolio, PortfolioUser
 from flask_cors import CORS
 from forms import UserAddForm, LoginForm, CreatePortfolioForm, AddStockForm
