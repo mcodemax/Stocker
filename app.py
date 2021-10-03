@@ -27,7 +27,7 @@ if app.config['SQLALCHEMY_DATABASE_URI'].startswith('postgres://'):
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False #prints in ipython the queries being run
-app.config["SECRET_KEY"] = os.environ.get('SECRET_KEY', SECRET_KEY) #put this in a secret file later
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'xxx') #change 'xxx' to SECRET_KEY   no quotes when working on Stocker locally
 # https://stackoverflow.com/questions/30873189/where-should-i-place-the-secret-key-in-flask
 
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False

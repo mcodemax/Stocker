@@ -42,8 +42,10 @@ To access required tools, run the following in terminal:
 Then run the server by typing `flask run`
 
 **The code in this repo is written specifically for deployment purposes. In order to interact with the code locally on your machine, you must do the following:**
-Create a file `secret_codes.py` and define the `ALPHA_VAN_API_KEY` and `SECRET_KEY` variables according to your own dev environment.
+1. Create a file `secret_codes.py` and define the `ALPHA_VAN_API_KEY` and `SECRET_KEY` variables according to your own dev environment.
     - Add to `.gitignore` file
+2. Uncomment out secretcodes import in app.py
+3. change xxx to SECRET_KEY in line 30 of app.py ... where it says app.config['SECRET_KEY']
 
 ### Possible features to add:
 - **Store Internal Data of prev requested tickers**: To work around free API limits from Alpha Vantage possibly store previously requested ticker data in server.
