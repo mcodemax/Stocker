@@ -39,14 +39,11 @@ To access required tools, run the following in terminal:
 
 `pip install -r requirements.txt`
 
-
 Then run the server by typing `flask run`
 
 **The code in this repo is written specifically for deployment purposes. In order to interact with the code locally on your machine, you must do the following:**
-1. Create a file `secret_codes.py` and define the `CLIENT_ID` and `CLIENT_SECRET` variables according to the client id and client secret strings found in your Spotify dashboard.
-    - DON'T FORGET TO ADD THIS FILE TO YOUR `.gitignore` FILE
-5. Go into `_startup.py`, comment out the `CLIENT_ID` and `CLIENT_SECRET` variables (lines 16 and 17), and uncomment the import command (line 14).
-6. Go into `search.js`, comment out line 18 and uncomment the `SEARCH_URL` variable on line 16.
+Create a file `secret_codes.py` and define the `ALPHA_VAN_API_KEY` and `SECRET_KEY` variables according to your own dev environment.
+    - Add to `.gitignore` file
 
 ### Possible features to add:
 - **Store Internal Data of prev requested tickers**: To work around free API limits from Alpha Vantage possibly store previously requested ticker data in server.
