@@ -14,6 +14,7 @@ import requests
 
 CURR_USER_KEY = "curr_user"
 close_price_dict = {}
+print(ALPHA_VAN_API_KEY)
 
 app = Flask(__name__)
 CORS(app) #https://flask-cors.readthedocs.io/en/latest/
