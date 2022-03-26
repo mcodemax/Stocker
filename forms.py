@@ -10,7 +10,6 @@ class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[Length(min=6)])
 
-
 class UserAddForm(FlaskForm):
     """Form for adding users."""
 
@@ -24,7 +23,6 @@ class UserAddForm(FlaskForm):
 class CreatePortfolioForm(FlaskForm):
     """Form for creating a portfolio"""
 
-    # in progress
     name = StringField('Name your portfolio', validators=[DataRequired(), Length(max=MAX_NAME_LEN)])
     description = StringField('Describe your portfolio (Optional)', validators=[DataRequired(), Length(max=MAX_NOTE_LEN)])
 

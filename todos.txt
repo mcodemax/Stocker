@@ -31,3 +31,19 @@ Todos to implement:
 stockermainbkrnd taken from (Photo: Getty Images)
 
 -stocker homepage change to financial imagery
+
+
+
+script.js:
+//These functions outside the "viewdid load" type function for making chartjs charts is 
+//fine stylistically to be seperated from the other auxialliary functions
+
+models.py :
+                       # don't have two primary keys
+                       #https://flask-sqlalchemy.palletsprojects.com/en/2.x/models/
+                       #see above on compound primary keys
+
+app.py
+CORS(app) #https://flask-cors.readthedocs.io/en/latest/
+
+# https://github.com/mcodemax/Lucky_Number_Flask_2/blob/master/lucky-nums/app.py refer for api calls

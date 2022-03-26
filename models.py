@@ -40,7 +40,7 @@ class User(db.Model):
     password = db.Column(db.String(), 
                             nullable=False)
 
-    email = db.Column(db.String(MAX_EMAIL_LEN),  #maybe import email or use email from documentation? or no; dependencies might break
+    email = db.Column(db.String(MAX_EMAIL_LEN),  #if import email or use email type from documentation dependencies break
                             nullable=False)
 
     first_name = db.Column(db.String(MAX_NAME_LEN),
@@ -56,10 +56,6 @@ class User(db.Model):
 
     portfolios = db.relationship("Portfolio", backref="user") #don't cascade delete these b/c other users can view other porfolios
 
-    # feedback = db.relationship("Feedback", backref="user", cascade="all, delete-orphan")
-    #def function to salt/encrpyt password
-    
-    
     @classmethod
     def register(cls, username, password, email, first_name, last_name, image_url=DEFAULT_USER_IMG):
 
@@ -73,7 +69,6 @@ class User(db.Model):
         db.session.add(user)
 
         return user
-
     
     @classmethod
     def authenticate(cls, username, pwd):
@@ -93,7 +88,6 @@ class Portfolio(db.Model):
     def __repr__(self):
         return f"""<name={self.name}>"""
 
-
     id = db.Column(db.Integer,
                     primary_key=True,
                     autoincrement=True)
@@ -104,14 +98,9 @@ class Portfolio(db.Model):
     description = db.Column(db.String(MAX_NOTE_LEN),
                         nullable=False)
 
-    # value may not be needed cause it is calculated semi-real time in app.py with the close_price_dict
-    # value = db.Column(db.Float,
-    #                     default=0) 
-
     # tells what user made this portfolio
     user_id = db.Column(db.Integer,
                        db.ForeignKey("users.id"),
-                    #    primary_key=True #uncommenting this line breaks schema; ask
                        )
 
     stocks = db.relationship("StocksPortfolio", backref="portfolio", cascade="all, delete-orphan")           
@@ -127,12 +116,9 @@ class PortfolioUser(db.Model):
 
     user_id = db.Column(db.Integer,
                        db.ForeignKey("users.id", ondelete="cascade"))
-                       # primary_key=True) #not needed as primary key for this table
 
-    portfolio_id = db.Column(db.Integer,  #having user_id FK in the Portfolio class above breaks the schema(if you leave primary_key=True in that particular part of the mentioned class)
+    portfolio_id = db.Column(db.Integer,
                        db.ForeignKey("portfolios.id", ondelete="cascade"))
-                       # primary_key=True) #not needed as primary key for this table
-
 
 class StocksPortfolio(db.Model):
     """Mapping of Stocks to a Portfolio."""
@@ -146,14 +132,8 @@ class StocksPortfolio(db.Model):
                     primary_key=True,
                     autoincrement=True)
 
-    portfolio_id = db.Column(db.Integer,    #having user_id FK in the Portfolio class above breaks the schema(if you leave primary_key=True in that particular part of the mentioned class)
+    portfolio_id = db.Column(db.Integer,
                        db.ForeignKey("portfolios.id"))
-
-                       #primary_key=True) removed; not needed as primary key
-                       #issue with sqlalchemy, models, viewownportfolio.html, delete_stock route
-                       # don't have two primary keys
-                       #https://flask-sqlalchemy.palletsprojects.com/en/2.x/models/
-                       #see above on compound primary keys
 
     ticker = db.Column(db.String(MAX_NAME_LEN),
                         nullable=False)

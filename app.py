@@ -17,7 +17,7 @@ close_price_dict = {}
 ALPHA_VAN_API_KEY = os.environ.get('ALPHA_VAN_API_KEY', 'nothere') #comment out deving Stocker locally
 
 app = Flask(__name__)
-CORS(app) #https://flask-cors.readthedocs.io/en/latest/
+CORS(app)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = (
     os.environ.get('DATABASE_URL', 'postgresql://postgres:myPassword@localhost:5433/stocker')) 
@@ -45,7 +45,8 @@ connect_db(app)
 def add_user_to_g():
     """If we're logged in, add curr user to Flask global."""
 
-    if CURR_USER_KEY in session:
+    if CURR_USER_KEY in session: # have to access database in every request; it's avoidable
+        #store User in session and retrieve from session everytime instead of going to the database
         g.user = User.query.get(session[CURR_USER_KEY])
     else:
         g.user = None
@@ -118,7 +119,7 @@ def login():
         user = User.authenticate(form.username.data,
                                  form.password.data)
 
-        if user: # if user succesfull created
+        if user: # if user succesfully created
             do_login(user)
             flash(f"Hello, {user.username}!", "success")
             return redirect("/")
@@ -155,7 +156,6 @@ def make_portfolio():
             db.session.add(portf_user_entry)
             db.session.commit()
 
-            #finish the route below that lets you view the details of a portfolio
             return redirect(f"/portfolio/{g.user.id}/{portfolio.id}")
 
         except IntegrityError:
@@ -171,7 +171,6 @@ def view_own_portfolio(user_id, portfolio_id):
     form = AddStockForm()
 
     # authenticate user here
-
     if (form.validate_on_submit() and 
         g.user.id == Portfolio.query.get_or_404(portfolio_id).user_id):
         
@@ -199,7 +198,6 @@ def view_own_portfolio(user_id, portfolio_id):
                     db.session.commit()
             return redirect(f"/portfolio/{user_id}/{portfolio_id}")
             
-        #valididate ticker symbol
         if not check_valid_ticker(form.ticker.data):    
             flash("This ticker cannot be added (doesn't exist)", 'danger')
             return redirect(f"/portfolio/{user_id}/{portfolio_id}")
@@ -221,9 +219,7 @@ def view_own_portfolio(user_id, portfolio_id):
 
         return render_template('/portfolio/viewownportfolio.html', form=form, portfolio=portfolio)
         
-    # ref the above portfolio/create route once youre done here
-
-@app.route('/portfolio/<int:portfolio_id>/<int:ticker_id>/delete', methods=["POST"]) #we need to add stock id/ticker here
+@app.route('/portfolio/<int:portfolio_id>/<int:ticker_id>/delete', methods=["POST"])
 def delete_stock(portfolio_id, ticker_id):
     """route to delete a stock on portfolio"""
     
@@ -237,13 +233,12 @@ def delete_stock(portfolio_id, ticker_id):
 
     return redirect(f"/portfolio/{g.user.id}/{portfolio_id}")
 
-@app.route('/portfolio/<int:portfolio_id>/delete', methods=["POST"]) #we need to add stock id/ticker here
+@app.route('/portfolio/<int:portfolio_id>/delete', methods=["POST"])
 def delete_portfolio(portfolio_id):
     """route to delete a user's portfolio"""
 
     portfolio = Portfolio.query.get_or_404(portfolio_id)
 
-    # maybe add a check to make use portfolio_id(user_id) = id of the user_id in url
     if g.user.id == portfolio.user_id: 
         db.session.delete(portfolio)
         db.session.commit()
@@ -263,7 +258,6 @@ def test_api():
     date_keys = []
     price_vals = []
     
-    
     for k, v in ticker_data['Time Series (Daily)'].items(): 
         date_keys.append(k)
         price_vals.append(v['4. close'])
@@ -280,7 +274,6 @@ def test_api():
         'price_vals': price_vals
     }
 
-# https://github.com/mcodemax/Lucky_Number_Flask_2/blob/master/lucky-nums/app.py refer for api calls
 def alphavantage_api_call(ticker):
     
     url = f"""https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={ticker}&apikey={ALPHA_VAN_API_KEY}"""

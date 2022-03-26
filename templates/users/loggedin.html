@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
 <!-- user info -->
 <div>
     <div id="user-img" class="user-details">
@@ -13,7 +12,6 @@
 </div>
 
 <!-- list of your portolios -->
-
 <div id="portfolio-list">
     Your Portfolios:
     <ul>
@@ -27,21 +25,11 @@
     </ul>
 </div>
 
-
 <!-- create new portfolio page -->
-
 <div>
     <form action="/portfolio/create"> <!--send2new portfolio page-->
         <button class="btn-portfolio" type="submit">CREATE A NEW PORTFOLIO</button>
     </form>
 </div>
-
-
-<!-- view other people's portfolios -->
-
-    <!-- loop thru PortfolioUser.query.get all
-         and say: portfolio name: created by username -->
-
-
 
 {% endblock %}

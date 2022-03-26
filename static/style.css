@@ -1,93 +1,84 @@
 #stocker-tiny-img {
-    height: 4vw;
-    width: 4vw;
+  height: 4vw;
+  width: 4vw;
 }
 
 .main-layout-color {
-    background-color: rgba(48, 30, 30, 0.801); 
-    color: rgb(180, 235, 180);
-    /* maybe use some type of green white hybrid */
+  background-color: rgba(48, 30, 30, 0.801);
+  color: rgb(180, 235, 180);
 }
 
 .join-message {
-    color: whitesmoke
+  color: whitesmoke;
 }
 
 .home h4 {
-    font-size: xx-large;
+  font-size: xx-large;
 }
 
 li form {
-    display: inline-block;
+  display: inline-block;
 }
 
-/* li button {
-    add later
-} */
-
 .home {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    position: absolute;
-    top: 0;
-    width: 100vw;
-    left: 0;
-    z-index: -1;
-    background-image: url("/static/stockermainbkrnd.jpg");
-    background-size: cover;
-    background-position: center center;
-    color: #fff;
-    text-align: center;
-    padding: 1rem;
-    text-shadow: 0 0 8px #66757f;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  width: 100vw;
+  left: 0;
+  z-index: -1;
+  background-image: url('/static/stockermainbkrnd.jpg');
+  background-size: cover;
+  background-position: center center;
+  color: #fff;
+  text-align: center;
+  padding: 1rem;
+  text-shadow: 0 0 8px #66757f;
 }
 
 div #user-img img {
-    max-width:20%;
-    height:auto;
+  max-width: 20%;
+  height: auto;
 }
 
 .user-img {
-    border-radius: 10%;
-    margin-top: 20px;
+  border-radius: 10%;
+  margin-top: 20px;
 }
 
 .chart {
-    border: 1px solid rgb(217, 226, 217);
-    border-radius: 2%;
+  border: 1px solid rgb(217, 226, 217);
+  border-radius: 2%;
 }
 
 /* del btn on stocks */
 .del-btn::before {
-    font-family: "Font Awesome 5 Free"; 
-    color: red;
-    font-weight: 100;
-    font-size: .85em;
-    content: "\f2ed";
-    display: inline-block;
-    font-style: normal;
-    font-variant: normal;
-   
-    border: none;
-    
-    
-    background: Transparent no-repeat;
-    /* transparent background not working */
+  font-family: 'Font Awesome 5 Free';
+  color: red;
+  font-weight: 100;
+  font-size: 0.85em;
+  content: '\f2ed';
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+
+  border: none;
+
+  background: Transparent no-repeat;
+  /* transparent background not working */
 }
 
-
-
-
 a {
-    color: honeydew;
+  color: honeydew;
 }
 
 .btn-portfolio {
-    border-radius: 10%;
-    background: rgb(57, 106, 151);
-    color: whitesmoke;
-    font-weight: 400;
+  border-radius: 10%;
+  background: rgb(57, 106, 151);
+  color: whitesmoke;
+  font-weight: 400;
 }

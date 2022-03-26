@@ -1,63 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Stocker</title>
 
-<head>
-  <meta charset="UTF-8">
-  <title>Stocker</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/bootstrap/dist/css/bootstrap.css"
+    />
+    <script src="https://unpkg.com/jquery"></script>
+    <script src="https://unpkg.com/popper"></script>
+    <script src="https://unpkg.com/bootstrap"></script>
 
-  <link rel="stylesheet"
-        href="https://unpkg.com/bootstrap/dist/css/bootstrap.css">
-  <script src="https://unpkg.com/jquery"></script>
-  <script src="https://unpkg.com/popper"></script>
-  <script src="https://unpkg.com/bootstrap"></script>
-  
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+    />
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
 
-  <link rel="stylesheet"
-        href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
-  <link rel="stylesheet" href="/static/style.css">
-</head>
-
-<body class="{% block body_class %}{% endblock %} main-layout-color">
-<nav class="navbar navbar-expand navbar-dark bg-dark">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a href="/" class="navbar-brand">
-        <img src="/static/stock-prices-up.png" alt="logo" id="stocker-tiny-img">
-        <span>Stocker</span>
-      </a>
+  <body class="{% block body_class %}{% endblock %} main-layout-color">
+    <nav class="navbar navbar-expand navbar-dark bg-dark">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a href="/" class="navbar-brand">
+            <img
+              src="/static/stock-prices-up.png"
+              alt="logo"
+              id="stocker-tiny-img"
+            />
+            <span>Stocker</span>
+          </a>
+        </div>
+        <ul class="navbar-nav mr-auto">
+          {% if not g.user %}
+          <li class="nav-item">
+            <a class="nav-link" href="/login"
+              >Login<span class="sr-only">(current)</span></a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/signup"
+              >Signup<span class="sr-only">(current)</span></a
+            >
+          </li>
+          {% endif %} {% if g.user %}
+          <li class="nav-item">
+            <a class="nav-link" href="/logout"
+              >Logout<span class="sr-only">(current)</span></a
+            >
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+    <div class="container">
+      {% for category, message in get_flashed_messages(with_categories=True) %}
+      <div class="alert alert-{{ category }}">{{ message }}</div>
+      {% endfor %}
+      {% block content %} {% endblock %}
     </div>
-    <ul class="navbar-nav mr-auto">
-      {% if not g.user %}
-      <li class="nav-item">
-        <a class="nav-link" href="/login">Login<span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/signup">Signup<span class="sr-only">(current)</span></a>
-      </li>
-      {% endif %}
-      {% if g.user %}
-      <li class="nav-item">
-        <a class="nav-link" href="/logout">Logout<span class="sr-only">(current)</span></a>
-      </li>
-      {% endif %}
-    </ul>
-  </div>
-</nav>
-<div class="container">
-  {% for category, message in get_flashed_messages(with_categories=True) %}
-  <div class="alert alert-{{ category }}">{{ message }}</div>
-  {% endfor %}
 
-  {% block content %}
-  {% endblock %}
-
-</div>
-
-
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.0/chart.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="/static/script.js"></script>
-</body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.0/chart.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
+      integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="/static/script.js"></script>
+  </body>
 </html>

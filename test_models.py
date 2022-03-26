@@ -1,13 +1,11 @@
 """App route tests."""
 
 # run these tests like:
-#
 #    FLASK_ENV=production python -m unittest test_models.py
 
 import os
 from unittest import TestCase
 from models import StocksPortfolio, db, connect_db, User, Portfolio, PortfolioUser, DEFAULT_USER_IMG
-
 
 # BEFORE we import our app, let's set an environmental variable
 # to use a different database for tests (we need to do this
@@ -15,7 +13,6 @@ from models import StocksPortfolio, db, connect_db, User, Portfolio, PortfolioUs
 # connected to the database
 
 os.environ['DATABASE_URL'] = "postgresql://postgres:myPassword@localhost:5433/stocker_test"
-
 
 # Now we can import app
 
