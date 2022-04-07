@@ -4,6 +4,8 @@
 
 [Link to Stocker](https://stocker-max.herokuapp.com/) 
 
+[UI Image](https://github.com/mcodemax/Stocker/blob/master/UIimg.PNG?raw=true)
+
 Description: A website where users can create a portfolio up to 5 stocks and calculate the near realtime value of their portfolio holdings. Users can view daily chart price history of stock holding in their portfolio. Disclaimer: Due to free API limits from AlphaVantage App performs best is waiting 30-60s before viewing portfolios and altering them.
 
 ### Features:
